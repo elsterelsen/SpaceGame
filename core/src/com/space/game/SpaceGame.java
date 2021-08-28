@@ -6,6 +6,7 @@ import com.space.game.screens.GameScreen;
 
 public class SpaceGame extends Game {
 	private static SpriteBatch batch;
+	private static SpriteBatch HUDbatch;
 	private static SpaceGame INSTANCE;
 	
 	@Override
@@ -20,6 +21,14 @@ public class SpaceGame extends Game {
 
 	public static SpaceGame getINSTANCE() {
 		return INSTANCE;
+	}
+
+	public static SpriteBatch getHUDbatch() {
+		return HUDbatch;
+	}
+
+	public static void setHUDbatch(SpriteBatch HUDbatch) {
+		SpaceGame.HUDbatch = HUDbatch;
 	}
 
 	public static SpriteBatch getBatch() {
