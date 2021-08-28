@@ -11,6 +11,9 @@ public class SpaceGame extends Game {
 	
 	@Override
 	public void create () {
+		batch=new SpriteBatch();
+		HUDbatch=new SpriteBatch();
+		INSTANCE=this;
 		setScreen(new GameScreen());
 	}
 

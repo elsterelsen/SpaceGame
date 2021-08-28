@@ -1,40 +1,50 @@
 package com.space.game.playerClasses;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
-public class Player extends Rectangle {
-    private Sprite img;
+public class Player extends Sprite {
+    private Texture img = new Texture("KennyAssets/Default/enemy_A.png");
     private Sprite minimapImg;
     private float speed;
+    private float turnSpeed;
+    private Vector2 position;
 
     public Player() {
-        this.img = new Sprite();
+        super(new Texture("KennyAssets/Default/enemy_A.png"));
+        turnSpeed=1;
+        setTexture(img);
+
         this.minimapImg = new Sprite();
-        speed=10;
-        x=0;
-        y=0;
+        speed=1.5f;
+        setSize(Gdx.graphics.getHeight()/10f,Gdx.graphics.getHeight()/10f );
         setCenter(0,0);
-        height= Gdx.graphics.getHeight()/10f;
-        width=height;
+        setOrigin(getWidth()/2f,getHeight()/2f);
     }
-    public void draw(SpriteBatch batch){
-        batch.draw(img,x,y,width,height);
-    }
+
     public void drawMinimapSymbol(SpriteBatch batch){
-        batch.draw(minimapImg,x,y,width,height);
     }
-    public void rotate(float degrees){
-        img.rotate(degrees);
-        minimapImg.rotate(degrees);
-    }
+
     public void move(float delta){
-        Vector2 pos=getPosition(new Vector2());
-        pos.add(new Vector2().setAngleDeg(img.getRotation()).scl(speed*delta));
-        x=pos.x;
-        y=pos.y;
+        Vector2 movement=new Vector2(1,0);
+        movement.setAngleDeg(getRotation()+90);
+        movement.scl(speed*delta*getHeight());
+        translate(movement.x,movement.y);
+    }
+    public Vector2 getPosition(){
+        return new Vector2(getX(),getY());
+    }
+    public Vector2 getCenter(){
+        return new Vector2(getX()-getWidth()/2f,getY()-getHeight()/2f);
+    }
+    public void left(float delta){
+        rotate(delta*(-180)*turnSpeed);
+    }
+
+    public void right(float delta){
+        rotate(delta*180*turnSpeed);
     }
 }
