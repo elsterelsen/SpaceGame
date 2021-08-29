@@ -45,10 +45,10 @@ public class GameScreen extends ScreenAdapter {
     }
     public void controlls(float delta){
         if(Gdx.input.isKeyPressed(Input.Keys.W)||Gdx.input.isKeyPressed(Input.Keys.UP)){
-            player.move(delta);
+            player.addVelocity(delta);
         }
         else if(Gdx.input.isKeyPressed(Input.Keys.S)||Gdx.input.isKeyPressed(Input.Keys.DOWN)){
-            player.move(-delta);
+            player.addVelocity(-delta);
         }
 
         if(Gdx.input.isKeyPressed(Input.Keys.A)||Gdx.input.isKeyPressed(Input.Keys.LEFT)){
@@ -57,5 +57,6 @@ public class GameScreen extends ScreenAdapter {
         else if(Gdx.input.isKeyPressed(Input.Keys.D)||Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
             player.right(delta);
         }
+        player.move(delta);
     }
 }
