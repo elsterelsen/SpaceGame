@@ -9,7 +9,10 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import com.space.game.SpaceGame;
+import com.space.game.entities.Entity;
+import com.space.game.entities.Meteor;
 import com.space.game.obstacles.Border;
 import com.space.game.playerClasses.Player;
 import com.space.game.utils.ExtendedShapeRenderer;
@@ -22,6 +25,7 @@ public class GameScreen extends ScreenAdapter {
     private ExtendedShapeRenderer SR;
     private Player player;
     private Border border;
+    private Array<Entity> entities;
     public GameScreen() {
         HUDbatch=SpaceGame.getHUDbatch();
         batch= SpaceGame.getBatch();
@@ -29,6 +33,8 @@ public class GameScreen extends ScreenAdapter {
         player=new Player();
         SR=SpaceGame.getSR();
         border=new Border(Math.round(2000*pixelPerMeter),Math.round(1000*pixelPerMeter));
+        entities=new Array<>();
+        entities.add(new Meteor(100,100));
     }
 
     @Override

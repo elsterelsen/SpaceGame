@@ -61,8 +61,8 @@ public class Entity extends Sprite {
     public void updateHitbox(){
         hitbox.setPosition(getCenter().x,getCenter().y);
     }
-
     public com.badlogic.gdx.math.Circle getHitbox() {
         return hitbox;
     }
+
 }
