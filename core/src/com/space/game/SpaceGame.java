@@ -2,9 +2,12 @@ package com.space.game;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.space.game.screens.GameScreen;
+import com.space.game.utils.ExtendedShapeRenderer;
 
 public class SpaceGame extends Game {
+	private static ExtendedShapeRenderer SR;
 	private static SpriteBatch batch;
 	private static SpriteBatch HUDbatch;
 	private static SpaceGame INSTANCE;
@@ -14,7 +17,8 @@ public class SpaceGame extends Game {
 		batch=new SpriteBatch();
 		HUDbatch=new SpriteBatch();
 		INSTANCE=this;
-		setScreen(new GameScreen());
+		SR=new ExtendedShapeRenderer();
+			setScreen(new GameScreen());
 	}
 
 	@Override
@@ -40,5 +44,9 @@ public class SpaceGame extends Game {
 
 	public static void setBatch(SpriteBatch batch) {
 		SpaceGame.batch = batch;
+	}
+
+	public static ExtendedShapeRenderer getSR() {
+		return SR;
 	}
 }
