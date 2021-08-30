@@ -17,6 +17,8 @@ import com.space.game.obstacles.Border;
 import com.space.game.playerClasses.Player;
 import com.space.game.utils.ExtendedShapeRenderer;
 
+import java.util.Random;
+
 public class GameScreen extends ScreenAdapter {
     private static final float pixelPerMeter=Gdx.graphics.getHeight()/10f/5f;
     private OrthographicCamera camera;
@@ -34,7 +36,8 @@ public class GameScreen extends ScreenAdapter {
         SR=SpaceGame.getSR();
         border=new Border(Math.round(2000*pixelPerMeter),Math.round(1000*pixelPerMeter));
         entities=new Array<>();
-        entities.add(new Meteor(100,100));
+        initialAddEntities(400);
+
     }
 
     @Override
@@ -59,19 +62,46 @@ public class GameScreen extends ScreenAdapter {
         batch.begin();
         batch.setProjectionMatrix(camera.combined);
         player.draw(batch);
+        for(Entity e:entities){
+            e.draw(batch);
+        }
         batch.end();
     }
     public void drawHUD(float delta){
         HUDbatch.begin();
         HUDbatch.end();
     }
+    public void initialAddEntities(int number){
+        entities.add(new Meteor(-1000,1000));
+        Random random=new Random();
+        for(int i=number;i>0;i--){
+            Vector2 entityPosition=new Vector2(random.nextFloat()*border.width*0.9f-border.width/2f,random.nextFloat()*border.height*0.9f-border.height/2f);
+            boolean repeat=false;
+            for (Entity e:entities){
+                if(entityPosition.dst(e.getCenter())/pixelPerMeter<40){
+                    repeat=true;
+                    break;
+                }
+            }
+            if(repeat){i++;}
+            else{entities.add(new Meteor(entityPosition.x,entityPosition.y));}
+        }
+    }
+    public void invisibleAddEntity(){
+
+    }
     public void updateCamera(){
-        camera.position.x=player.getCenter().x+player.getWidth();
-        camera.position.y=player.getCenter().y+player.getHeight();
+        camera.position.x=player.getCenter().x;
+        camera.position.y=player.getCenter().y;
         camera.update();
     }
     public void collisionCheck(){
         border.collision(player);
+
+            for (Entity e:entities){
+                player.collisionCheck(e);
+            }
+
     }
     public void controlls(float delta){
         boolean f=true;

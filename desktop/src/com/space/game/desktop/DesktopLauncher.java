@@ -13,7 +13,7 @@ public class DesktopLauncher {
 		config.width=500;
 		config.height=500;
 		//config.fullscreen=true;
-		//processTextures();
+		processTextures();
 		new LwjglApplication(new SpaceGame(), config);
 	}
 	public static void processTextures(){

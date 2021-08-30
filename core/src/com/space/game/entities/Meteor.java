@@ -1,22 +1,46 @@
 package com.space.game.entities;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.math.Vector2;
+import com.space.game.playerClasses.Player;
 import com.space.game.screens.GameScreen;
 
+import java.awt.*;
 import java.util.Random;
 
 public class Meteor extends Entity{
 private static TextureAtlas atlas=new TextureAtlas("KennyAssets/Default/meteor/atlas.atlas");
     public Meteor(float x,float y) {
         super();
-        setCenter(x,y);
         Random random=new Random();
-        setTexture(atlas.getRegions().get(random.nextInt(atlas.getRegions().size-1)).getTexture());
-        getHitbox().setRadius((random.nextFloat()*10+10)* GameScreen.getPixelsPerMeter());
-        setSize(getHitbox().radius*2f,getHitbox().radius*2f);
-        rotate(random.nextFloat()*360);
-        updateHitbox();
+        setRegion(atlas.getRegions().get(random.nextInt(atlas.getRegions().size-1)));
+        float radius=(random.nextFloat()*30+10)* GameScreen.getPixelsPerMeter()/2f;
+        setSize(radius,radius);
+
+        getHitbox().setRadius(radius/4f);
+        maxHp=getHitbox().radius/GameScreen.getPixelsPerMeter();
+        hp=maxHp;
+
+        setCenter(x,y);
+        getHitbox().setPosition(getCenter().x,getCenter().y);
     }
 
+    @Override
+    public void hitEffect(Player player) {
+        if(player.isSmaller(this)){
 
+            player.damage(hp);
+            Vector2 newCenterPosition=getCenter().add(
+                    player.getCenter().sub(getCenter())
+                            .nor().scl(player.getHitbox().radius+getHitbox().radius));
+            player.setCenter(newCenterPosition.x,newCenterPosition.y);
+        }
+        else{
+            player.damage(hp);
+        }
+
+
+        death();
+        System.out.println("Meteor hitted! "+hp+" Damage dealt to Player");
+    }
 }

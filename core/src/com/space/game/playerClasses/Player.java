@@ -25,7 +25,7 @@ public class Player extends Sprite {
     public Player() {
         super(new Texture("KennyAssets/Default/enemy_A.png"));
         turnSpeed=1;
-        maxSpeed=3* GameScreen.getPixelsPerMeter();
+        maxSpeed=1* GameScreen.getPixelsPerMeter();
         currentMovement=new Vector2(0,0);
         friction=0.07f;
         setTexture(img);
@@ -62,25 +62,28 @@ public class Player extends Sprite {
         currentMovement.mulAdd(m,-(1/friction)*delta);
             //    currentMovement.scl(0);
     }
-
+        currentMovement.scl(0.95f);
         updateHitbox();
     }
     public Vector2 getPosition(){
         return new Vector2(getX(),getY());
     }
     public Vector2 getCenter(){
-        return new Vector2(getX()-getWidth()/2f,getY()-getHeight()/2f);
+        return new Vector2(getX()+getWidth()/2f,getY()+getHeight()/2f);
     }
     public void left(float delta){
-        rotate(delta*(-180)*turnSpeed);
+        rotate(delta*(180)*turnSpeed);
     }
 
     public void right(float delta){
-        rotate(delta*180*turnSpeed);
+        rotate(delta*-180*turnSpeed);
     }
     public void collisionCheck(Entity e){
         if(hitbox.overlaps(e.getHitbox())){
-            e.hitEffect();
+            e.hitEffect(this);
+        }
+        if(e.getHitbox().contains(getCenter())){
+            System.out.println("mitte berührt meteor");
         }
     }
     public void updateHitbox(){
@@ -92,5 +95,15 @@ public class Player extends Sprite {
 
     public Circle getHitbox() {
         return hitbox;
+    }
+    public boolean isSmaller(Entity entity){
+        return entity.getHitbox().radius>hitbox.radius;
+    }
+    public void damage(float damage){
+        hp-=damage;
+        checkDeath();
+    }
+    public void checkDeath(){
+
     }
 }

@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector2;
+import com.space.game.playerClasses.Player;
 
 public class Entity extends Sprite {
 
@@ -16,8 +17,8 @@ public class Entity extends Sprite {
     private Vector2 currentMovement;
     private float turnSpeed;
     private float friction;
-    private float hp;
-    private float maxHp;
+    public float hp;
+    public float maxHp;
     private Circle hitbox;
 
     public Entity() {
@@ -29,9 +30,7 @@ public class Entity extends Sprite {
         setTexture(img);
         this.minimapImg = new Sprite();
         speed=1.5f;
-        setSize(Gdx.graphics.getHeight()/10f,Gdx.graphics.getHeight()/10f );
-        setCenter(0,0);
-        setOrigin(getWidth()/2f,getHeight()/2f);
+        setOrigin(getCenter().x,getCenter().y);
         hitbox=new Circle(getCenter().x,getCenter().y,getHeight()/2f);
     }
     public void drawMinimapSymbol(SpriteBatch batch){
@@ -54,9 +53,9 @@ public class Entity extends Sprite {
         return new Vector2(getX(),getY());
     }
     public Vector2 getCenter(){
-        return new Vector2(getX()-getWidth()/2f,getY()-getHeight()/2f);
+        return new Vector2(getX()+getWidth()/2f,getY()+getHeight()/2f);
     }
-    public void hitEffect(){}
+    public void hitEffect(Player player){}
     public void collisionCheck(){}
     public void updateHitbox(){
         hitbox.setPosition(getCenter().x,getCenter().y);
@@ -64,5 +63,5 @@ public class Entity extends Sprite {
     public com.badlogic.gdx.math.Circle getHitbox() {
         return hitbox;
     }
-
+    public void death(){}
 }
