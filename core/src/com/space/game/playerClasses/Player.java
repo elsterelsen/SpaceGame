@@ -1,6 +1,7 @@
 package com.space.game.playerClasses;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -8,6 +9,7 @@ import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector2;
 import com.space.game.entities.Entity;
 import com.space.game.screens.GameScreen;
+import org.graalvm.compiler.core.common.SpeculativeExecutionAttacksMitigations;
 
 public class Player extends Sprite {
     private Texture img = new Texture("KennyAssets/Default/enemy_A.png");
@@ -21,6 +23,11 @@ public class Player extends Sprite {
     private float hp;
     private float maxHp;
     private Circle hitbox;
+    private float bulletDamage;
+    private float attackSpeed;
+    private float attackTimeCounter;
+    private float bulletSpeed;
+    Color bulletColor;
 
     public Player() {
         super(new Texture("KennyAssets/Default/enemy_A.png"));
@@ -28,6 +35,11 @@ public class Player extends Sprite {
         maxSpeed=1* GameScreen.getPixelsPerMeter();
         currentMovement=new Vector2(0,0);
         friction=0.07f;
+        bulletDamage=100;
+        bulletSpeed=10*GameScreen.getPixelsPerMeter();
+        attackTimeCounter=0;
+        attackSpeed=2;
+        bulletColor= Color.BLUE;
         setTexture(img);
         this.minimapImg = new Sprite();
         acceleration=1.5f* GameScreen.getPixelsPerMeter();
@@ -109,5 +121,14 @@ public class Player extends Sprite {
     }
     public void checkDeath(){
 
+    }
+    public void shoot(float delta){
+        attackTimeCounter+=delta;
+        if(attackTimeCounter>=1/attackSpeed){
+        GameScreen.bullets.add(
+                new Bullet(getCenter(),new Vector2(1,0).setAngleDeg(getRotation()).nor().scl(bulletSpeed),bulletDamage,bulletColor)
+        );
+        attackTimeCounter=0;
+        }
     }
 }

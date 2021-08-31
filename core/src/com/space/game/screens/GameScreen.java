@@ -14,6 +14,7 @@ import com.space.game.SpaceGame;
 import com.space.game.entities.Entity;
 import com.space.game.entities.Meteor;
 import com.space.game.obstacles.Border;
+import com.space.game.playerClasses.Bullet;
 import com.space.game.playerClasses.Player;
 import com.space.game.utils.ExtendedShapeRenderer;
 
@@ -28,6 +29,7 @@ public class GameScreen extends ScreenAdapter {
     private Player player;
     private Border border;
     public static Array<Entity> entities;
+    public static Array<Bullet> bullets;
     public GameScreen() {
         HUDbatch=SpaceGame.getHUDbatch();
         batch= SpaceGame.getBatch();
@@ -36,6 +38,8 @@ public class GameScreen extends ScreenAdapter {
         SR=SpaceGame.getSR();
         border=new Border(Math.round(2000*pixelPerMeter),Math.round(1000*pixelPerMeter));
         entities=new Array<>();
+        bullets=new Array<>();
+        bullets.add(new Bullet(new Vector2(10000,10000),new Vector2(),1,Color.RED));
         initialAddEntities(400);
 
     }
@@ -58,6 +62,9 @@ public class GameScreen extends ScreenAdapter {
         border.draw();
         for(Entity e:entities){
             e.drawHpBar(delta,SR);
+        }
+        for(Bullet b:bullets){
+            b.draw(SR);
         }
         SR.end();
     }
@@ -103,7 +110,11 @@ public class GameScreen extends ScreenAdapter {
 
             for (Entity e:entities){
                 player.collisionCheck(e);
+                for(Bullet b:bullets){
+                    b.collision(e);
+                }
             }
+
 
     }
     public void controlls(float delta){
@@ -122,6 +133,9 @@ public class GameScreen extends ScreenAdapter {
         }
         else if(Gdx.input.isKeyPressed(Input.Keys.D)||Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
             player.right(delta);
+        }
+        if(Gdx.input.isKeyPressed(Input.Keys.SPACE)){
+            player.shoot(delta);
         }
         player.move(delta,f);
     }
