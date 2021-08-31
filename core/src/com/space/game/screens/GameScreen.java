@@ -27,7 +27,7 @@ public class GameScreen extends ScreenAdapter {
     private ExtendedShapeRenderer SR;
     private Player player;
     private Border border;
-    private Array<Entity> entities;
+    public static Array<Entity> entities;
     public GameScreen() {
         HUDbatch=SpaceGame.getHUDbatch();
         batch= SpaceGame.getBatch();
@@ -47,15 +47,18 @@ public class GameScreen extends ScreenAdapter {
         collisionCheck();
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         draw(delta);
-        drawSR();
+        drawSR(delta);
         drawHUD(delta);
         updateCamera();
     }
-    public void drawSR(){
+    public void drawSR(float delta){
         Gdx.gl.glEnable(GL20.GL_BLEND);
         SR.begin(ShapeRenderer.ShapeType.Filled);
         SR.setProjectionMatrix(camera.combined);
         border.draw();
+        for(Entity e:entities){
+            e.drawHpBar(delta,SR);
+        }
         SR.end();
     }
     public void draw(float delta){

@@ -103,6 +103,10 @@ public class Player extends Sprite {
         hp-=damage;
         checkDeath();
     }
+    public float crashDamage(){
+        hp-=currentMovement.len2()/GameScreen.getPixelsPerMeter();
+        return currentMovement.len2()/GameScreen.getPixelsPerMeter();
+    }
     public void checkDeath(){
 
     }

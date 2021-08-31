@@ -18,29 +18,23 @@ private static TextureAtlas atlas=new TextureAtlas("KennyAssets/Default/meteor/a
         setSize(radius,radius);
 
         getHitbox().setRadius(radius/4f);
-        maxHp=getHitbox().radius/GameScreen.getPixelsPerMeter();
+        maxHp=getHitbox().radius/GameScreen.getPixelsPerMeter()*100;
         hp=maxHp;
 
         setCenter(x,y);
         getHitbox().setPosition(getCenter().x,getCenter().y);
+        innitializeHpBar();
     }
 
     @Override
     public void hitEffect(Player player) {
-        if(player.isSmaller(this)){
-
-            player.damage(hp);
+            damage(player.crashDamage());
             Vector2 newCenterPosition=getCenter().add(
                     player.getCenter().sub(getCenter())
                             .nor().scl(player.getHitbox().radius+getHitbox().radius));
             player.setCenter(newCenterPosition.x,newCenterPosition.y);
+        if(hp<=0) {
+            death();
         }
-        else{
-            player.damage(hp);
-        }
-
-
-        death();
-        System.out.println("Meteor hitted! "+hp+" Damage dealt to Player");
     }
 }

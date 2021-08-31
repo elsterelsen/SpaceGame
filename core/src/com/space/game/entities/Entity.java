@@ -4,9 +4,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g3d.particles.influencers.DynamicsModifier;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector2;
 import com.space.game.playerClasses.Player;
+import com.space.game.screens.GameScreen;
 
 public class Entity extends Sprite {
 
@@ -20,6 +23,7 @@ public class Entity extends Sprite {
     public float hp;
     public float maxHp;
     private Circle hitbox;
+    public HPBar hpBar;
 
     public Entity() {
         super(new Texture("KennyAssets/Default/meteor_large.png"));
@@ -35,7 +39,14 @@ public class Entity extends Sprite {
     }
     public void drawMinimapSymbol(SpriteBatch batch){
     }
+    public void drawHpBar(float delta, ShapeRenderer SR){
 
+        hpBar.updatePosition(getCenter());
+        hpBar.draw(SR,delta);
+    }
+    public void innitializeHpBar(){
+        hpBar=new HPBar(0.90f,new Vector2(getPosition().x,getPosition().y-0.5f* GameScreen.getPixelsPerMeter()),new Vector2(getWidth(),0.5f*GameScreen.getPixelsPerMeter()),getCenter());
+    }
     public void addVelocity(float delta){
         if(currentMovement.len2()<maxSpeed){
             Vector2 movement=new Vector2(1,0);
@@ -48,6 +59,10 @@ public class Entity extends Sprite {
         translate(currentMovement.x,currentMovement.y);
         currentMovement.scl(1/ friction);
         currentMovement.scl(delta);
+    }
+    public void damage(float damage){
+        hp-=Math.abs(damage);
+        hpBar.setHpPercent(hp/maxHp);
     }
     public Vector2 getPosition(){
         return new Vector2(getX(),getY());
@@ -63,5 +78,6 @@ public class Entity extends Sprite {
     public com.badlogic.gdx.math.Circle getHitbox() {
         return hitbox;
     }
-    public void death(){}
+    public void death(){GameScreen.entities.removeValue(this,true);}
+
 }
