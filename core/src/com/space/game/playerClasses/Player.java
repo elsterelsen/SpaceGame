@@ -36,9 +36,10 @@ public class Player extends Sprite {
         currentMovement=new Vector2(0,0);
         friction=0.07f;
         bulletDamage=100;
-        bulletSpeed=10*GameScreen.getPixelsPerMeter();
-        attackTimeCounter=0;
+        bulletSpeed=30*GameScreen.getPixelsPerMeter();
+
         attackSpeed=2;
+        attackTimeCounter=attackSpeed;
         bulletColor= Color.BLUE;
         setTexture(img);
         this.minimapImg = new Sprite();
@@ -70,7 +71,7 @@ public class Player extends Sprite {
     public void move(float delta,boolean applyFriction){
         translate(currentMovement.x,currentMovement.y);
         if(applyFriction){
-            Vector2 m =currentMovement;
+            Vector2 m =new Vector2(currentMovement);
         currentMovement.mulAdd(m,-(1/friction)*delta);
             //    currentMovement.scl(0);
     }
@@ -123,12 +124,17 @@ public class Player extends Sprite {
 
     }
     public void shoot(float delta){
-        attackTimeCounter+=delta;
         if(attackTimeCounter>=1/attackSpeed){
+            Vector2 bulletAccelaration=new Vector2(1,0).nor().setAngleDeg(getRotation()+90).scl(bulletSpeed);
+            Vector2 bulletMovement=new Vector2(currentMovement);
+            bulletMovement.add(bulletAccelaration);
         GameScreen.bullets.add(
-                new Bullet(getCenter(),new Vector2(1,0).setAngleDeg(getRotation()).nor().scl(bulletSpeed),bulletDamage,bulletColor)
+                new Bullet(getCenter(),bulletMovement,bulletDamage,bulletColor)
         );
         attackTimeCounter=0;
         }
+    }
+    public void raiseAttackTimeCounter(float delta){
+        attackTimeCounter+=delta;
     }
 }

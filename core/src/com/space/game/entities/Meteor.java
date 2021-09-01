@@ -28,13 +28,12 @@ private static TextureAtlas atlas=new TextureAtlas("KennyAssets/Default/meteor/a
 
     @Override
     public void hitEffect(Player player) {
-            damage(player.crashDamage());
             Vector2 newCenterPosition=getCenter().add(
                     player.getCenter().sub(getCenter())
                             .nor().scl(player.getHitbox().radius+getHitbox().radius));
             player.setCenter(newCenterPosition.x,newCenterPosition.y);
-        if(hp<=0) {
-            death();
-        }
+
+        damage(player.crashDamage());
+
     }
 }

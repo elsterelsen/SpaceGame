@@ -50,21 +50,29 @@ public class GameScreen extends ScreenAdapter {
         controlls(delta);
         collisionCheck();
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        drawBullets(delta);
         draw(delta);
-        drawSR(delta);
+        drawBorder(delta);
         drawHUD(delta);
         updateCamera();
     }
-    public void drawSR(float delta){
+    public void drawBorder(float delta){
         Gdx.gl.glEnable(GL20.GL_BLEND);
         SR.begin(ShapeRenderer.ShapeType.Filled);
         SR.setProjectionMatrix(camera.combined);
         border.draw();
+
+        SR.end();
+    }
+    public void drawBullets(float delta){
+        Gdx.gl.glEnable(GL20.GL_BLEND);
+        SR.begin(ShapeRenderer.ShapeType.Filled);
+        SR.setProjectionMatrix(camera.combined);
         for(Entity e:entities){
             e.drawHpBar(delta,SR);
         }
         for(Bullet b:bullets){
-            b.draw(SR);
+            b.draw(SR,delta);
         }
         SR.end();
     }
@@ -119,6 +127,7 @@ public class GameScreen extends ScreenAdapter {
     }
     public void controlls(float delta){
         boolean f=true;
+        //Movement Input Control
         if(Gdx.input.isKeyPressed(Input.Keys.W)||Gdx.input.isKeyPressed(Input.Keys.UP)){
             player.addVelocity(delta);
             f=false;
@@ -127,13 +136,15 @@ public class GameScreen extends ScreenAdapter {
             player.addVelocity(-delta);
             f=false;
         }
-
+        //Turning Input Controll
         if(Gdx.input.isKeyPressed(Input.Keys.A)||Gdx.input.isKeyPressed(Input.Keys.LEFT)){
             player.left(delta);
         }
         else if(Gdx.input.isKeyPressed(Input.Keys.D)||Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
             player.right(delta);
         }
+        //Shoot Input Control
+        player.raiseAttackTimeCounter(delta);
         if(Gdx.input.isKeyPressed(Input.Keys.SPACE)){
             player.shoot(delta);
         }

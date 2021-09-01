@@ -30,13 +30,13 @@ public class HPBar {
             SR.rect(position.x,position.y,size.x,size.y);
             if(counter>0) {
                 counter-=delta;
-                SR.setColor(Color.FIREBRICK);
+                SR.setColor(0.7f,0,0,1);
                 SR.rect(position.x + size.x * 0.05f, position.y + size.y * 0.05f, size.x * 0.9f * formerHpPercent, size.y * 0.9f);
             }
             else{
                 formerHpPercent=hpPercent;
             }
-            SR.setColor(Color.RED);
+            SR.setColor(1,0,0,1);
             SR.rect(position.x+size.x*0.05f,position.y+size.y*0.05f,size.x*0.9f*hpPercent,size.y*0.9f);
         }
     }

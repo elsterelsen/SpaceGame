@@ -9,19 +9,22 @@ import com.space.game.utils.ExtendedShapeRenderer;
 
 public class Bullet {
     Vector2 position;
-    Vector2 size;
+    float length,thickness;
     Vector2 movement;
+    float distanceTraveled;
     float range;
     float damage;
     Color color;
 
     public Bullet(Vector2 position, Vector2 movement, float damage,Color color) {
-        this.position = position;
-        size=new Vector2(1* GameScreen.getPixelsPerMeter(),0.2f*GameScreen.getPixelsPerMeter());
-        this.movement = movement;
+        this.position = new Vector2(position);
+        this.movement = new Vector2(movement);
         this.damage = damage;
         this.color=color;
+        distanceTraveled=0;
         range= 100*GameScreen.getPixelsPerMeter();
+        length=2*GameScreen.getPixelsPerMeter();
+        thickness=2*GameScreen.getPixelsPerMeter();
     }
     public void collision(Player player){
         if(player.getHitbox().contains(position)){
@@ -35,6 +38,12 @@ public class Bullet {
             entity.damage(damage);
             onHitEffect();
         }
+
+    }
+    private void adjustMovement(float delta){
+        Vector2 m=new Vector2(movement);
+        position.add(m.scl(delta));
+        distanceTraveled+=m.len2()*delta;
     }
     public void onHitEffect(){
         death();
@@ -42,7 +51,12 @@ public class Bullet {
     public void death(){
         GameScreen.bullets.removeValue(this,true);
     }
-    public void draw(ExtendedShapeRenderer SR){
-        SR.drawBlurredLine(color,position,position.add(movement.x,movement.y),Math.round(size.y));
+    public void draw(ExtendedShapeRenderer SR,float delta){
+        //Act
+        adjustMovement(delta);
+
+        //Draw
+        Vector2 length=new Vector2(movement).nor().scl(this.length);
+        SR.drawBlurredLine(color,new Vector2(position),new Vector2(position).add(length),Math.round(thickness));
     }
 }

@@ -63,6 +63,9 @@ public class Entity extends Sprite {
     public void damage(float damage){
         hp-=Math.abs(damage);
         hpBar.setHpPercent(hp/maxHp);
+        if(hp<=0) {
+            death();
+        }
     }
     public Vector2 getPosition(){
         return new Vector2(getX(),getY());
