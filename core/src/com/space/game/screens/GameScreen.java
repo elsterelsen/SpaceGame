@@ -22,12 +22,12 @@ import java.util.Random;
 
 public class GameScreen extends ScreenAdapter {
     private static final float pixelPerMeter=Gdx.graphics.getHeight()/10f/5f;
-    private OrthographicCamera camera;
-    private SpriteBatch batch;
-    private SpriteBatch HUDbatch;
-    private ExtendedShapeRenderer SR;
+    private final OrthographicCamera camera;
+    private final SpriteBatch batch;
+    private final SpriteBatch HUDbatch;
+    private final ExtendedShapeRenderer SR;
     private Player player;
-    private Border border;
+    private final Border border;
     public static Array<Entity> entities;
     public static Array<Bullet> bullets;
     public GameScreen() {
@@ -51,12 +51,12 @@ public class GameScreen extends ScreenAdapter {
         collisionCheck();
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         drawBullets(delta);
-        draw(delta);
-        drawBorder(delta);
-        drawHUD(delta);
+        draw();
+        drawBorder();
+        drawHUD();
         updateCamera();
     }
-    public void drawBorder(float delta){
+    public void drawBorder(){
         Gdx.gl.glEnable(GL20.GL_BLEND);
         SR.begin(ShapeRenderer.ShapeType.Filled);
         SR.setProjectionMatrix(camera.combined);
@@ -76,7 +76,7 @@ public class GameScreen extends ScreenAdapter {
         }
         SR.end();
     }
-    public void draw(float delta){
+    public void draw(){
         batch.begin();
         batch.setProjectionMatrix(camera.combined);
         player.draw(batch);
@@ -85,7 +85,7 @@ public class GameScreen extends ScreenAdapter {
         }
         batch.end();
     }
-    public void drawHUD(float delta){
+    public void drawHUD(){
         HUDbatch.begin();
         HUDbatch.end();
     }
