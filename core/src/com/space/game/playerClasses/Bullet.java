@@ -44,6 +44,9 @@ public class Bullet {
         Vector2 m=new Vector2(movement);
         position.add(m.scl(delta));
         distanceTraveled+=m.len2()*delta;
+        if(distanceTraveled>range){
+            death();
+        }
     }
     public void onHitEffect(){
         death();
