@@ -32,18 +32,18 @@ public class Player extends Sprite {
     public Player() {
         super(new Texture("KennyAssets/Default/enemy_A.png"));
         turnSpeed=1;
-        maxSpeed=1* GameScreen.getPixelsPerMeter();
         currentMovement=new Vector2(0,0);
-        friction=0.07f;
+        friction=0.5f*GameScreen.getPixelsPerMeter();
+        acceleration=8f* GameScreen.getPixelsPerMeter();
+        maxSpeed=acceleration/friction;
         bulletDamage=100;
-        bulletSpeed=30*GameScreen.getPixelsPerMeter();
+        bulletSpeed=50f*GameScreen.getPixelsPerMeter();
 
         attackSpeed=2;
         attackTimeCounter=attackSpeed;
         bulletColor= Color.BLUE;
         setTexture(img);
         this.minimapImg = new Sprite();
-        acceleration=1.5f* GameScreen.getPixelsPerMeter();
         maxHp=100f;
         fillUpHp();
         setSize(Gdx.graphics.getHeight()/10f,Gdx.graphics.getHeight()/10f );
@@ -62,20 +62,28 @@ public class Player extends Sprite {
         movement.nor();
         movement.scl(acceleration*delta);
         currentMovement.add(movement.x,movement.y);
-        if(currentMovement.len2()>maxSpeed){
+        /**if(currentMovement.len2()>maxSpeed){
             currentMovement.nor();
             currentMovement.scl(maxSpeed);
         }
+         **/
 
     }
-    public void move(float delta,boolean applyFriction){
+    public void move(float delta){
         translate(currentMovement.x,currentMovement.y);
-        if(applyFriction){
+
+            Vector2 newMovement=new Vector2(currentMovement);
             Vector2 m =new Vector2(currentMovement);
-        currentMovement.mulAdd(m,-(1/friction)*delta);
+        newMovement.mulAdd(m,-(friction*delta));
+        if(newMovement.hasOppositeDirection(currentMovement)){
+
+            currentMovement.scl(0f);
+        }
+        else if(newMovement.len2()<currentMovement.len2()){
+            currentMovement=new Vector2(newMovement);
+        }
             //    currentMovement.scl(0);
-    }
-        currentMovement.scl(0.95f);
+
         updateHitbox();
     }
     public Vector2 getPosition(){

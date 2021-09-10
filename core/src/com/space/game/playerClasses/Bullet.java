@@ -22,7 +22,7 @@ public class Bullet {
         this.damage = damage;
         this.color=color;
         distanceTraveled=0;
-        range= 100*GameScreen.getPixelsPerMeter();
+        range= 10*GameScreen.getPixelsPerMeter();
         length=2*GameScreen.getPixelsPerMeter();
         thickness=2*GameScreen.getPixelsPerMeter();
     }

@@ -19,6 +19,7 @@ public class SpaceGame extends Game {
 		INSTANCE=this;
 		SR=new ExtendedShapeRenderer();
 			setScreen(new GameScreen());
+
 	}
 
 	@Override

@@ -18,5 +18,7 @@ public class DesktopLauncher {
 	}
 	public static void processTextures(){
 		TexturePacker.process("KennyAssets/Default/meteor","KennyAssets/Default/meteor","atlas");
+		TexturePacker.process("KennyAssets/Default/star","KennyAssets/Default/star","atlas");
+
 	}
 }
