@@ -10,6 +10,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.space.game.SpaceGame;
 import com.space.game.entities.Entity;
 import com.space.game.entities.Meteor;
@@ -22,25 +24,30 @@ import com.space.game.utils.ExtendedShapeRenderer;
 import java.util.Random;
 
 public class GameScreen extends ScreenAdapter {
-    private static final float pixelPerMeter=Gdx.graphics.getHeight()/10f/5f;
+    private float formerHeight=Gdx.graphics.getHeight();
+    private static float pixelPerMeter=Gdx.graphics.getHeight()/10f/5f;
     private final OrthographicCamera camera;
     private final SpriteBatch batch;
     private final SpriteBatch HUDbatch;
     private final ExtendedShapeRenderer SR;
-    private Player player;
+    private final Player player;
     private final Border border;
     public static Array<Entity> entities;
     public static Array<Bullet> bullets;
-    private Background background;
+    private final Background background;
+    private final ScreenViewport viewport;
     public GameScreen() {
         HUDbatch=SpaceGame.getHUDbatch();
         batch= SpaceGame.getBatch();
         camera=new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        viewport=new ScreenViewport(camera);
+        viewport.apply();
+
         player=new Player();
         SR=SpaceGame.getSR();
         border=new Border(Math.round(2000*pixelPerMeter),Math.round(1000*pixelPerMeter));
         background=new Background();
-        background.initialize(1000, border.x, border.y, border.width,border.height);
+        background.initialize(5000, border.x, border.y, border.width,border.height);
         entities=new Array<>();
         bullets=new Array<>();
         bullets.add(new Bullet(new Vector2(10000,10000),new Vector2(),1,Color.RED));
@@ -161,5 +168,17 @@ public class GameScreen extends ScreenAdapter {
 
     public static float getPixelsPerMeter(){
         return pixelPerMeter;
+    }
+
+
+    @Override
+    public void resize(int width, int height) {
+        //setting up new camera zoom
+        float zoom=(float)height/formerHeight;
+        camera.zoom/=zoom;
+        camera.update();
+        viewport.update(width,height);
+        //adjust former Height to current Height
+        formerHeight=height;
     }
 }
