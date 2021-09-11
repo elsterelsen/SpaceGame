@@ -14,7 +14,7 @@ import com.space.game.screens.GameScreen;
 public class Entity extends Sprite {
 
     private Texture img = new Texture("KennyAssets/Default/enemy_A.png");
-    private Sprite minimapImg;
+    private static final Texture minimapSymbol= new Texture("KennyAssets/Default/star/star_tiny.png");;
     private float speed;
     private float maxSpeed;
     private Vector2 currentMovement;
@@ -32,12 +32,13 @@ public class Entity extends Sprite {
         currentMovement=new Vector2(0,0);
         friction=1.5f;
         setTexture(img);
-        this.minimapImg = new Sprite();
         speed=1.5f;
         setOrigin(getCenter().x,getCenter().y);
         hitbox=new Circle(getCenter().x,getCenter().y,getHeight()/2f);
     }
     public void drawMinimapSymbol(SpriteBatch batch){
+
+        batch.draw(minimapSymbol,getX(),getY(),getWidth(),getHeight());
     }
     public void drawHpBar(float delta, ShapeRenderer SR){
 

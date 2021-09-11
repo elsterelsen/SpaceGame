@@ -12,8 +12,9 @@ import com.space.game.screens.GameScreen;
 import org.graalvm.compiler.core.common.SpeculativeExecutionAttacksMitigations;
 
 public class Player extends Sprite {
-    private Texture img = new Texture("KennyAssets/Default/enemy_A.png");
-    private Sprite minimapImg;
+    private Texture img = new Texture("KennyAssets/Default/ship_L.png");
+    private final Texture minimapSymbol=new Texture("KennyAssets/Default/ship_A.png");
+    private static final float minimapZoom=1f;
     private float acceleration;
     private float speed;
     private float maxSpeed;
@@ -30,7 +31,7 @@ public class Player extends Sprite {
     Color bulletColor;
 
     public Player() {
-        super(new Texture("KennyAssets/Default/enemy_A.png"));
+        super(new Texture("KennyAssets/Default/ship_L.png"));
         turnSpeed=1;
         currentMovement=new Vector2(0,0);
         friction=0.5f*GameScreen.getPixelsPerMeter();
@@ -43,7 +44,6 @@ public class Player extends Sprite {
         attackTimeCounter=attackSpeed;
         bulletColor= Color.BLUE;
         setTexture(img);
-        this.minimapImg = new Sprite();
         maxHp=100f;
         fillUpHp();
         setSize(Gdx.graphics.getHeight()/10f,Gdx.graphics.getHeight()/10f );
@@ -53,6 +53,7 @@ public class Player extends Sprite {
     }
 
     public void drawMinimapSymbol(SpriteBatch batch){
+        batch.draw(minimapSymbol,getX(),getY(),getWidth()*minimapZoom,getHeight()*minimapZoom);
     }
 
     public void addVelocity(float delta){
@@ -144,5 +145,8 @@ public class Player extends Sprite {
     }
     public void raiseAttackTimeCounter(float delta){
         attackTimeCounter+=delta;
+    }
+    public static float getMinimapZoom(){
+        return minimapZoom;
     }
 }

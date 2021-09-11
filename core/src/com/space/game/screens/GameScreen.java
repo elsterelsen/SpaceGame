@@ -15,6 +15,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.space.game.SpaceGame;
 import com.space.game.entities.Entity;
 import com.space.game.entities.Meteor;
+import com.space.game.hud.HUD;
 import com.space.game.obstacles.Background;
 import com.space.game.obstacles.Border;
 import com.space.game.playerClasses.Bullet;
@@ -24,26 +25,29 @@ import com.space.game.utils.ExtendedShapeRenderer;
 import java.util.Random;
 
 public class GameScreen extends ScreenAdapter {
-    private float formerHeight=Gdx.graphics.getHeight();
-    private static float pixelPerMeter=Gdx.graphics.getHeight()/10f/5f;
-    private final OrthographicCamera camera;
+    private static float formerHeight=Gdx.graphics.getHeight();
+    private static float formerWidth=Gdx.graphics.getWidth();
+    private final static float pixelPerMeter=Gdx.graphics.getHeight()/10f/5f;
+    private static OrthographicCamera camera;
+    private static OrthographicCamera minimapCamera;
     private final SpriteBatch batch;
     private final SpriteBatch HUDbatch;
     private final ExtendedShapeRenderer SR;
-    private final Player player;
+    private final static Player player=new Player();
     private final Border border;
     public static Array<Entity> entities;
     public static Array<Bullet> bullets;
     private final Background background;
-    private final ScreenViewport viewport;
+    private static ScreenViewport viewport;
+    private  HUD hud;
     public GameScreen() {
         HUDbatch=SpaceGame.getHUDbatch();
         batch= SpaceGame.getBatch();
         camera=new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        minimapCamera=new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         viewport=new ScreenViewport(camera);
         viewport.apply();
 
-        player=new Player();
         SR=SpaceGame.getSR();
         border=new Border(Math.round(2000*pixelPerMeter),Math.round(1000*pixelPerMeter));
         background=new Background();
@@ -52,7 +56,7 @@ public class GameScreen extends ScreenAdapter {
         bullets=new Array<>();
         bullets.add(new Bullet(new Vector2(10000,10000),new Vector2(),1,Color.RED));
         initialAddEntities(400);
-
+        hud=new HUD();
     }
 
     @Override
@@ -102,8 +106,7 @@ public class GameScreen extends ScreenAdapter {
         batch.end();
     }
     public void drawHUD(){
-        HUDbatch.begin();
-        HUDbatch.end();
+        hud.draw();
     }
     public void initialAddEntities(int number){
         entities.add(new Meteor(-1000,1000));
@@ -128,6 +131,9 @@ public class GameScreen extends ScreenAdapter {
         camera.position.x=player.getCenter().x;
         camera.position.y=player.getCenter().y;
         camera.update();
+        minimapCamera.position.x=player.getCenter().x;
+        minimapCamera.position.y=player.getCenter().y;
+        minimapCamera.update();
     }
     public void collisionCheck(){
         border.collision(player);
@@ -177,8 +183,44 @@ public class GameScreen extends ScreenAdapter {
         float zoom=(float)height/formerHeight;
         camera.zoom/=zoom;
         camera.update();
+        minimapCamera.zoom/=zoom;
+        minimapCamera.update();
+        //updating the viewport
         viewport.update(width,height);
         //adjust former Height to current Height
         formerHeight=height;
+        hud.renewMinimap(width,height);
+    }
+
+    public static SpriteBatch getBatch() {
+        return SpaceGame.getBatch();
+    }
+
+    public static Array<Entity> getEntities() {
+        return entities;
+    }
+
+    public static Player getPlayer() {
+        return player;
+    }
+
+    public static ScreenViewport getViewport() {
+        return viewport;
+    }
+
+    public static float getFormerHeight() {
+        return formerHeight;
+    }
+
+    public static float getFormerWidth() {
+        return formerWidth;
+    }
+
+    public static OrthographicCamera getMinimapCamera() {
+        return minimapCamera;
+    }
+
+    public static OrthographicCamera getCamera() {
+        return camera;
     }
 }

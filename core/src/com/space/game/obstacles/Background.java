@@ -25,7 +25,7 @@ public class Background {
     public void initialize(int starNumber,float borderX, float borderY,float borderWidth,float borderHeight){
         for(int i = starNumber;i>0;i--){
 
-            if(!secureAddStar(random.nextFloat()*borderWidth+borderX,random.nextFloat()*borderHeight+borderY,(random.nextFloat()*2+3)* GameScreen.getPixelsPerMeter()))
+            if(!secureAddStar(random.nextFloat()*borderWidth+borderX,random.nextFloat()*borderHeight+borderY,(random.nextFloat()+3)* GameScreen.getPixelsPerMeter()))
             {
                 i++;
             }
