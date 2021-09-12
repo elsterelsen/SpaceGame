@@ -56,7 +56,7 @@ public class Player extends Sprite {
     }
 
     public void addVelocity(float delta){
-        System.out.println(currentMovement.len2()/GameScreen.getPixelsPerMeter());
+        //System.out.println(currentMovement.len2()/GameScreen.getPixelsPerMeter());
         Vector2 movement=new Vector2(1,0);
         movement.setAngleDeg(getRotation()+90);
         movement.nor();
