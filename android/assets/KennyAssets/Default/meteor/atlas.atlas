@@ -1,62 +1,62 @@
 
 atlas.png
-size: 256, 256
+size: 1024, 512
 format: RGBA8888
 filter: Nearest, Nearest
 repeat: none
-meteor_detailedLarge
+Slice1
   rotate: false
-  xy: 2, 134
-  size: 64, 64
-  orig: 64, 64
+  xy: 200, 202
+  size: 196, 196
+  orig: 196, 196
   offset: 0, 0
   index: -1
-meteor_detailedSmall
+Slice2
   rotate: false
-  xy: 2, 68
-  size: 64, 64
-  orig: 64, 64
+  xy: 2, 201
+  size: 196, 197
+  orig: 196, 197
   offset: 0, 0
   index: -1
-meteor_large
+Slice3
   rotate: false
-  xy: 68, 134
-  size: 64, 64
-  orig: 64, 64
+  xy: 398, 133
+  size: 132, 131
+  orig: 132, 131
   offset: 0, 0
   index: -1
-meteor_small
+Slice4
   rotate: false
   xy: 2, 2
-  size: 64, 64
-  orig: 64, 64
+  size: 196, 197
+  orig: 196, 197
   offset: 0, 0
   index: -1
-meteor_squareDetailedLarge
+Slice5
   rotate: false
-  xy: 68, 68
-  size: 64, 64
-  orig: 64, 64
+  xy: 532, 133
+  size: 131, 131
+  orig: 131, 131
   offset: 0, 0
   index: -1
-meteor_squareDetailedSmall
+Slice7
   rotate: false
-  xy: 134, 134
-  size: 64, 64
-  orig: 64, 64
+  xy: 398, 266
+  size: 132, 132
+  orig: 132, 132
   offset: 0, 0
   index: -1
-meteor_squareLarge
+Slice8
   rotate: false
-  xy: 68, 2
-  size: 64, 64
-  orig: 64, 64
+  xy: 200, 4
+  size: 196, 196
+  orig: 196, 196
   offset: 0, 0
   index: -1
-meteor_squareSmall
+Slice9
   rotate: false
-  xy: 134, 68
-  size: 64, 64
-  orig: 64, 64
+  xy: 532, 266
+  size: 131, 132
+  orig: 131, 132
   offset: 0, 0
   index: -1

@@ -17,7 +17,7 @@ private static TextureAtlas atlas=new TextureAtlas("KennyAssets/Default/meteor/a
         float radius=(random.nextFloat()*30+10)* GameScreen.getPixelsPerMeter()/2f;
         setSize(radius,radius);
 
-        getHitbox().setRadius(radius/4f);
+        getHitbox().setRadius(radius/2f);
         maxHp=getHitbox().radius/GameScreen.getPixelsPerMeter()*100;
         hp=maxHp;
 
