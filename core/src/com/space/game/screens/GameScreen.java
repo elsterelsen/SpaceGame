@@ -15,6 +15,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.space.game.SpaceGame;
 import com.space.game.entities.Entity;
 import com.space.game.entities.Meteor;
+import com.space.game.hud.HUD;
 import com.space.game.obstacles.Background;
 import com.space.game.obstacles.Border;
 import com.space.game.playerClasses.Bullet;
@@ -36,6 +37,7 @@ public class GameScreen extends ScreenAdapter {
     public static Array<Bullet> bullets;
     private final Background background;
     private final ScreenViewport viewport;
+    private final HUD hud;
     public GameScreen() {
         HUDbatch=SpaceGame.getHUDbatch();
         batch= SpaceGame.getBatch();
@@ -44,6 +46,7 @@ public class GameScreen extends ScreenAdapter {
         viewport.apply();
 
         player=new Player();
+        hud=new HUD(player);
         SR=SpaceGame.getSR();
         border=new Border(Math.round(2000*pixelPerMeter),Math.round(1000*pixelPerMeter));
         background=new Background();
@@ -104,6 +107,7 @@ public class GameScreen extends ScreenAdapter {
     public void drawHUD(){
         HUDbatch.begin();
         HUDbatch.end();
+        hud.draw();
     }
     public void initialAddEntities(int number){
         entities.add(new Meteor(-1000,1000));
@@ -178,6 +182,7 @@ public class GameScreen extends ScreenAdapter {
         camera.zoom/=zoom;
         camera.update();
         viewport.update(width,height);
+        hud.updateViewport(width,height);
         //adjust former Height to current Height
         formerHeight=height;
     }

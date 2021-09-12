@@ -44,7 +44,7 @@ public class Player extends Sprite {
         bulletColor= Color.BLUE;
         setTexture(img);
         this.minimapImg = new Sprite();
-        maxHp=100f;
+        maxHp=1000f;
         fillUpHp();
         setSize(Gdx.graphics.getHeight()/10f,Gdx.graphics.getHeight()/10f );
         setCenter(0,0);
@@ -144,5 +144,8 @@ public class Player extends Sprite {
     }
     public void raiseAttackTimeCounter(float delta){
         attackTimeCounter+=delta;
+    }
+    public float getHpPercent(){
+        return hp/maxHp;
     }
 }
