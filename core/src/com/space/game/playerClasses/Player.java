@@ -148,4 +148,10 @@ public class Player extends Sprite {
     public float getHpPercent(){
         return hp/maxHp;
     }
+    public void heal(float percent){
+        hp+=hp*percent;
+        if(hp>maxHp){
+            hp=maxHp;
+        }
+    }
 }
