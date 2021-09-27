@@ -2,7 +2,6 @@ package com.space.game;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.space.game.screens.GameScreen;
 import com.space.game.utils.ExtendedShapeRenderer;
 
@@ -11,7 +10,13 @@ public class SpaceGame extends Game {
 	private static SpriteBatch batch;
 	private static SpriteBatch HUDbatch;
 	private static SpaceGame INSTANCE;
-	
+	private static boolean isDeviceAndroid;
+
+	public SpaceGame(boolean phone) {
+		super();
+		isDeviceAndroid=phone;
+	}
+
 	@Override
 	public void create () {
 		batch=new SpriteBatch();
@@ -49,5 +54,9 @@ public class SpaceGame extends Game {
 
 	public static ExtendedShapeRenderer getSR() {
 		return SR;
+	}
+
+	public static boolean isIsDeviceAndroid() {
+		return isDeviceAndroid;
 	}
 }
