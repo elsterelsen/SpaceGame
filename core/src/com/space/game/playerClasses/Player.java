@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector2;
 import com.space.game.entities.Entity;
+import com.space.game.npc.Spacestation;
 import com.space.game.screens.GameScreen;
 import org.graalvm.compiler.core.common.SpeculativeExecutionAttacksMitigations;
 
@@ -103,8 +104,10 @@ public class Player extends Sprite {
         if(hitbox.overlaps(e.getHitbox())){
             e.hitEffect(this);
         }
-        if(e.getHitbox().contains(getCenter())){
-            System.out.println("mitte berührt meteor");
+    }
+    public void collisionCheck(Spacestation spacestation){
+        if(hitbox.overlaps(spacestation.getShieldHitbox())){
+            spacestation.hoverEffect(this);
         }
     }
     public void updateHitbox(){

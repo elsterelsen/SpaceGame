@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Circle;
+import com.space.game.playerClasses.Player;
 import com.space.game.screens.GameScreen;
 
 public class Spacestation extends Sprite {
@@ -39,5 +40,14 @@ public class Spacestation extends Sprite {
     @Override
     public void draw(Batch batch) {
         draw(batch,opacity);
+        opacity+=0.05f;
+    }
+    public Circle getShieldHitbox(){
+        return shieldHitbox;
+    }
+    public void hoverEffect(Player player){
+        if (opacity>minOpacity) {
+            opacity-=0.1f;
+        }
     }
 }
