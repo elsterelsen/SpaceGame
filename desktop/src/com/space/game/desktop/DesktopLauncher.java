@@ -14,7 +14,7 @@ public class DesktopLauncher {
 		config.height=500;
 		//config.fullscreen=true;
 		processTextures();
-		new LwjglApplication(new SpaceGame(false), config);
+		new LwjglApplication(new SpaceGame(true), config);
 	}
 	public static void processTextures(){
 		TexturePacker.process("KennyAssets/Default/meteor","KennyAssets/Default/meteor","atlas");

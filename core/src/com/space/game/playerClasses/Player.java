@@ -27,7 +27,7 @@ public class Player extends Sprite {
     private float bulletDamage;
     private float attackSpeed;
     private float attackTimeCounter;
-    private float bulletSpeed;
+    private final float bulletSpeed;
     Color bulletColor;
 
     public Player() {
@@ -63,11 +63,6 @@ public class Player extends Sprite {
         movement.nor();
         movement.scl(acceleration*delta);
         currentMovement.add(movement.x,movement.y);
-        /**if(currentMovement.len2()>maxSpeed){
-            currentMovement.nor();
-            currentMovement.scl(maxSpeed);
-        }
-         **/
 
     }
     public void move(float delta){

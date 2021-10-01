@@ -1,18 +1,18 @@
 package com.space.game.obstacles;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.space.game.SpaceGame;
 import com.space.game.playerClasses.Player;
 import com.space.game.screens.GameScreen;
 import com.space.game.utils.ExtendedShapeRenderer;
 
-import java.awt.*;
 
 public class Border extends Rectangle {
 Vector2 v0,v1,v2,v3;
     public Border(int width, int height) {
-        super(width, height);
+        super(0,0,width, height);
         setCenter(0,0);
         updateVertecies();
     }
@@ -21,10 +21,6 @@ Vector2 v0,v1,v2,v3;
         v1=new Vector2(x+width,y+height);
         v2=new Vector2(x+width,y);
         v3=new Vector2(x,y);
-    }
-    public void setCenter(float x,float y){
-        this.x=Math.round(x-width/2f);
-        this.y=Math.round(y-height/2f);
     }
     public void collision(Player p){
         Vector2 size=new Vector2(p.getHitbox().radius*2,p.getHitbox().radius*2);

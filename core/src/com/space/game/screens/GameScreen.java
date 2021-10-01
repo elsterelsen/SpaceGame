@@ -1,7 +1,6 @@
 package com.space.game.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -11,11 +10,11 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
 import com.space.game.SpaceGame;
 import com.space.game.entities.Entity;
 import com.space.game.entities.Meteor;
 import com.space.game.hud.HUD;
+import com.space.game.hud.smartphoneHUD;
 import com.space.game.obstacles.Background;
 import com.space.game.obstacles.Border;
 import com.space.game.playerClasses.Bullet;
@@ -26,7 +25,7 @@ import java.util.Random;
 
 public class GameScreen extends ScreenAdapter {
     private float formerHeight=Gdx.graphics.getHeight();
-    private static float pixelPerMeter=Gdx.graphics.getHeight()/10f/5f;
+    private static final float pixelPerMeter=Gdx.graphics.getHeight()/10f/5f;
     private final OrthographicCamera camera;
     private final SpriteBatch batch;
     private final SpriteBatch HUDbatch;
@@ -46,7 +45,7 @@ public class GameScreen extends ScreenAdapter {
         viewport.apply();
 
         player=new Player();
-        hud=new HUD(player);
+        hud=new smartphoneHUD(player);
         SR=SpaceGame.getSR();
         border=new Border(Math.round(2000*pixelPerMeter),Math.round(1000*pixelPerMeter));
         background=new Background();
@@ -61,7 +60,7 @@ public class GameScreen extends ScreenAdapter {
     @Override
     public void render(float delta) {
         //System.out.println(delta);
-        controlls(delta);
+        hud.controlls(delta,player);
         collisionCheck();
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         drawBullets(delta);
@@ -145,30 +144,7 @@ public class GameScreen extends ScreenAdapter {
 
 
     }
-    public void controlls(float delta){
-        //Movement Input Control
-        if(Gdx.input.isKeyPressed(Input.Keys.W)||Gdx.input.isKeyPressed(Input.Keys.UP)){
-            player.addVelocity(delta);
-        }
-        else if(Gdx.input.isKeyPressed(Input.Keys.S)||Gdx.input.isKeyPressed(Input.Keys.DOWN)){
-            player.addVelocity(-delta);
 
-        }
-        //Turning Input Controll
-        if(Gdx.input.isKeyPressed(Input.Keys.A)||Gdx.input.isKeyPressed(Input.Keys.LEFT)){
-            player.left(delta);
-        }
-        else if(Gdx.input.isKeyPressed(Input.Keys.D)||Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
-            player.right(delta);
-        }
-        //Shoot Input Control
-        player.raiseAttackTimeCounter(delta);
-        if(Gdx.input.isKeyPressed(Input.Keys.SPACE)){
-            player.shoot(delta);
-        }
-        player.move(delta);
-
-    }
 
     public static float getPixelsPerMeter(){
         return pixelPerMeter;
