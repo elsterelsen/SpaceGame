@@ -48,9 +48,10 @@ private short steeringPointer;
         Vector2 pointer0=new Vector2(c.x,c.y);
         c=camera.unproject(new Vector3(Gdx.input.getX(1),Gdx.input.getY(1),1));
         Vector2 pointer1=new Vector2(c.x,c.y);
-        c=camera.unproject(new Vector3(Gdx.input.getX(steeringPointer),Gdx.input.getY(steeringPointer),1));
-        Vector2 pointer=new Vector2(c.x,c.y);
-
+        if(steeringPointer!=-1) {
+            c = camera.unproject(new Vector3(Gdx.input.getX(steeringPointer), Gdx.input.getY(steeringPointer), 1));
+            Vector2 pointer = new Vector2(c.x, c.y);
+        }
 
 
             if(shootButton.contains(pointer1.x,pointer1.y)&&Gdx.input.isTouched(1)||shootButton.contains(pointer0.x,pointer0.y)&&Gdx.input.isTouched(0)){
@@ -63,14 +64,20 @@ private short steeringPointer;
         if(steeringPointer<0){
             if(Gdx.input.isTouched(0)&&steeringWheel.contains(new Vector2(pointer0.x,pointer0.y))) {
                 steeringPointer=0;
+                c = camera.unproject(new Vector3(Gdx.input.getX(steeringPointer), Gdx.input.getY(steeringPointer), 1));
+                Vector2 pointer = new Vector2(c.x, c.y);
                 player.setRotation(new Vector2(steeringWheel.x,steeringWheel.y).sub(pointer.x,pointer.y).angleDeg()+90);
             }
             else if(Gdx.input.isTouched(1)&&steeringWheel.contains(new Vector2(pointer1.x,pointer1.y))){
                 steeringPointer=1;
+                c = camera.unproject(new Vector3(Gdx.input.getX(steeringPointer), Gdx.input.getY(steeringPointer), 1));
+                Vector2 pointer = new Vector2(c.x, c.y);
                 player.setRotation(new Vector2(steeringWheel.x,steeringWheel.y).sub(pointer.x,pointer.y).angleDeg()+90);
             }
         }
         else if(Gdx.input.isTouched(steeringPointer)){
+            c = camera.unproject(new Vector3(Gdx.input.getX(steeringPointer), Gdx.input.getY(steeringPointer), 1));
+            Vector2 pointer = new Vector2(c.x, c.y);
             Vector2 direction=new Vector2(steeringWheel.x,steeringWheel.y).sub(pointer.x,pointer.y);
             player.setRotation(direction.angleDeg()+90);
             if(direction.len2()>steeringWheel.radius/0.5f){
